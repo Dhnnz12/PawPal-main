@@ -23,26 +23,4 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
-    })
-    ->booting(function ($app) {
-        // Jalankan trik /tmp Vercel tepat saat aplikasi sedang bersiap booting
-        if (isset($_SERVER['VERCEL_URL'])) {
-            $targetDirectories = [
-                'bootstrap/cache',
-                'storage/framework/sessions',
-                'storage/framework/views',
-                'storage/framework/cache',
-                'storage/logs'
-            ];
-            foreach ($targetDirectories as $dir) {
-                if (!is_dir('/tmp/' . $dir)) {
-                    mkdir('/tmp/' . $dir, 0755, true);
-                }
-            }
-
-            // Alihkan penyimpanan rute internal & view compile ke /tmp
-            $app->useStoragePath('/tmp/storage');
-            config(['view.compiled' => '/tmp/bootstrap/cache']);
-        }
-    })
-    ->create();
+    })->create();
