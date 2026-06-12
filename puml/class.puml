@@ -1,0 +1,79 @@
+@startuml ClassDiagram
+skinparam classAttributeIconSize 0
+
+class Controller {
+}
+
+class Model {
+}
+
+class AuthController {
+  +showLogin()
+  +login(Request)
+  +showRegister()
+  +register(Request)
+  +logout()
+}
+
+class DashboardController {
+  +index()
+  +ownerDashboard()
+  +adminDashboard()
+}
+
+class PetController {
+  +index()
+  +create()
+  +store(Request)
+  +show(Pet)
+  +edit(Pet)
+  +update(Request, Pet)
+  +destroy(Pet)
+}
+
+class BookingController {
+  +search(Request)
+  +showCreate(User)
+  +store(Request)
+  +updateStatus(Request, Booking)
+}
+
+class User {
+  +id: bigint
+  +name: string
+  +role: string
+  +isAdmin(): boolean
+  +isPetOwner(): boolean
+  +pets()
+  +addresses()
+}
+
+class Pet {
+  +id: bigint
+  +name: string
+  +type: string
+  +age: int
+  +owner()
+}
+
+class Booking {
+  +id: bigint
+  +booking_date: date
+  +status: string
+  +pet()
+  +provider()
+}
+
+AuthController --|> Controller
+DashboardController --|> Controller
+PetController --|> Controller
+BookingController --|> Controller
+
+User --|> Model
+Pet --|> Model
+Booking --|> Model
+
+User "1" *-- "0..*" Pet : owns
+User "1" *-- "0..*" Booking : schedules (as owner) / manages (as admin)
+Pet "1" *-- "0..*" Booking : attends
+@enduml

@@ -1,0 +1,28 @@
+@startuml Sequence
+autonumber
+actor "Pet Owner" as PetOwner
+boundary "Blade View (Booking)" as View
+control "BookingController" as Controller
+entity "Booking Model" as Model
+database "Database (MySQL)" as DB
+
+PetOwner -> View : Pilih Layanan & Tanggal/Waktu
+PetOwner -> View : Pilih Hewan & Alamat
+PetOwner -> View : Klik 'Lanjutkan / Simpan'
+activate View
+View -> Controller : POST /booking/store (Data Booking)
+activate Controller
+Controller -> Controller : Validasi data input
+Controller -> Model : Create new Booking object
+activate Model
+Model -> DB : INSERT INTO bookings values (...)
+activate DB
+DB --> Model : Success & Return Booking ID
+deactivate DB
+Model --> Controller : Booking instance
+deactivate Model
+Controller --> View : Redirect ke Halaman Pemesanan (Success Alert)
+deactivate Controller
+View --> PetOwner : Tampilkan riwayat booking (Status: Pending)
+deactivate View
+@enduml

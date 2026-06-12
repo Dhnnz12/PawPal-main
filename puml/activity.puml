@@ -1,0 +1,26 @@
+@startuml Activity
+start
+:Klik Cari Penyedia Layanan;
+:Pilih Kategori (Groomer/Vet/Sitter);
+:Klik Booking;
+:Tentukan Layanan Terkait;
+:Tentukan Hari & Jam;
+:Pilih Hewan Terdaftar;
+:Pilih Alamat Penjemputan;
+:Klik Lanjutkan;
+:Data Booking Dibuat (Status Pending);
+:Notifikasi Ditampilkan ke Admin;
+
+if (Keputusan Admin?) then (Setuju)
+  :Konfirmasi Booking;
+  :Admin Menyelesaikan Tugas (atau menugaskan petugas);
+  if (Layanan adalah Medis / Vet?) then (Ya)
+    :Admin/Vet Mengunggah Rekam Medis (PDF);
+  else (Tidak)
+  endif
+  :Pemilik Hewan Memberikan Ulasan/Rating;
+else (Tolak / Batalkan)
+  :Booking Dibatalkan;
+endif
+stop
+@enduml

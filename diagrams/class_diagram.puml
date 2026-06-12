@@ -1,0 +1,107 @@
+@startuml ClassDiagram
+skinparam classAttributeIconSize 0
+
+class Controller {
+}
+
+class Model {
+}
+
+class AuthController {
+  +showLogin()
+  +login(Request)
+  +showRegister()
+  +register(Request)
+  +logout()
+}
+
+class DashboardController {
+  +index()
+  +ownerDashboard()
+  +adminDashboard()
+}
+
+class PetController {
+  +index()
+  +create()
+  +store(Request)
+  +show(Pet)
+  +update(Request, Pet)
+  +destroy(Pet)
+}
+
+class BookingController {
+  +search(Request)
+  +showCreate(User)
+  +store(Request)
+  +updateStatus(Request, Booking)
+}
+
+class MarketplaceController {
+  +index()
+  +cart()
+  +checkout(Request)
+}
+
+class ReviewController {
+  +create(Booking)
+  +store(Request, Booking)
+}
+
+class User {
+  +id: bigint
+  +name: string
+  +role: string
+  +isAdmin(): boolean
+  +isPetOwner(): boolean
+  +pets()
+  +addresses()
+}
+
+class Pet {
+  +id: bigint
+  +name: string
+  +type: string
+  +owner()
+}
+
+class Booking {
+  +id: bigint
+  +booking_date: date
+  +status: string
+  +pet()
+  +provider()
+}
+
+class Order {
+  +id: bigint
+  +total_amount: decimal
+  +status: string
+  +items()
+}
+
+class Review {
+  +id: bigint
+  +rating: int
+  +comment: string
+}
+
+AuthController --|> Controller
+DashboardController --|> Controller
+PetController --|> Controller
+BookingController --|> Controller
+MarketplaceController --|> Controller
+ReviewController --|> Controller
+
+User --|> Model
+Pet --|> Model
+Booking --|> Model
+Order --|> Model
+Review --|> Model
+
+User "1" *-- "0..*" Pet : owns
+User "1" *-- "0..*" Booking : schedules / manages
+User "1" *-- "0..*" Order : purchases
+Pet "1" *-- "0..*" Booking : attends
+Booking "1" *-- "0..1" Review : has
+@enduml

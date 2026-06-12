@@ -1,0 +1,27 @@
+@startuml Activity_Marketplace
+start
+:Buka Halaman Marketplace;
+:Pilih Produk;
+:Masukkan Jumlah & Tambah ke Keranjang;
+if (Lanjut Belanja?) then (Ya)
+  :Pilih Produk Lain;
+else (Tidak, ke Keranjang)
+  :Buka Halaman Keranjang Belanja;
+  :Review Item & Total Harga;
+  :Isi Alamat Pengiriman Lengkap;
+  :Unggah Bukti Pembayaran (Transfer);
+  :Klik 'Bayar & Buat Order';
+  :Pesanan Dibuat (Status: Pending);
+  :Sistem Mengurangi Stok Produk;
+  
+  if (Verifikasi Pembayaran oleh Admin?) then (Valid/Approve)
+    :Status Pesanan Menjadi 'Paid' / 'Shipped';
+    :Produk Dikirim ke Pelanggan;
+    :Pesanan Selesai (Completed);
+  else (Tidak Valid/Reject)
+    :Pesanan Dibatalkan (Cancelled);
+    :Stok Produk Dikembalikan;
+  endif
+endif
+stop
+@enduml

@@ -1,0 +1,35 @@
+@startuml UseCase
+left to right direction
+actor "🐾 Pet Owner" as PO
+actor "📊 System Administrator" as ADM
+
+package "PawPal System" {
+  usecase "Masuk Akun (Login)" as UC1
+  usecase "Daftar Akun Mandiri (Pet Owner)" as UC1a
+  usecase "Kelola Profil Hewan Peliharaan" as UC2
+  usecase "Cari & Pesan Layanan" as UC3
+  usecase "Belanja Produk Marketplace" as UC4
+  usecase "Kelola Alamat Pengiriman" as UC5
+  usecase "Akses Rekam Medis Hewan" as UC6
+  usecase "Beri Ulasan / Rating" as UC7
+  usecase "Kelola Jadwal & Layanan" as UC8
+  usecase "Kelola Transaksi & Produk" as UC9
+  usecase "Akses & Unggah Rekam Medis Hewan" as UC10
+  usecase "Kelola Pengguna (User Management)" as UC11
+}
+
+PO --> UC1
+PO --> UC1a
+PO --> UC2
+PO --> UC3
+PO --> UC4
+PO --> UC5
+PO --> UC6
+PO --> UC7
+
+ADM --> UC1
+ADM --> UC8
+ADM --> UC9
+ADM --> UC10
+ADM --> UC11
+@enduml

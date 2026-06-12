@@ -1,0 +1,426 @@
+@import "tailwindcss";
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Outfit', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Fraunces', ui-serif, Georgia, serif;
+
+    --color-warm-bg: #FAF6F0;
+    --color-warm-card: #ffffff;
+    --color-warm-border: #eadacb;
+    --color-warm-text: #4e3629;
+    --color-warm-muted: #8c7b72;
+    --color-peach-light: #fbebe5;
+    --color-peach: #d48c6a;
+    --color-terracotta: #b06948;
+    --color-sage-light: #ecf3ef;
+    --color-sage: #759a83;
+    --color-gold-light: #fff9f3;
+    --color-gold: #dda15e;
+}
+
+:root {
+    --bg-cream: #FAF6F0;
+    --bg-peach: #f9f2eb;
+    --bg-sage: #ecf3ef;
+    --bg-gold: #fff9f3;
+    --ink: #4e3629;
+    --muted: #8c7b72;
+    
+    --primary: #4e3629;
+    --primary-hover: #3c281e;
+    --secondary: #d48c6a;
+    --secondary-hover: #b87555;
+    --accent: #759a83;
+
+    --radius-organic-1: 30px 20px 30px 20px / 20px 30px 20px 30px;
+    --radius-organic-2: 20px 40px 20px 40px / 40px 20px 40px 20px;
+    --radius-organic-3: 40px 30px 40px 30px / 30px 40px 30px 40px;
+}
+
+/* Base resets & organic base styling */
+body {
+    background-color: var(--bg-cream);
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+    background-image: 
+        radial-gradient(circle at 10% 10%, rgba(212, 140, 106, 0.04), transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(117, 154, 131, 0.05), transparent 45%);
+    background-attachment: fixed;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+/* Warm mockup card styles */
+.pet-card {
+    background: #ffffff;
+    border: 1.5px solid #eadacb;
+    border-radius: 24px;
+    box-shadow: 0 6px 20px rgba(78, 54, 41, 0.02);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    overflow: hidden;
+}
+
+.pet-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(78, 54, 41, 0.04);
+}
+
+.pet-card-organic {
+    border-radius: var(--radius-organic-1);
+}
+
+/* Cute organic inputs */
+.pet-input {
+    border: 1.5px solid #eadacb;
+    border-radius: 16px;
+    background-color: #ffffff;
+    color: var(--ink);
+    padding: 10px 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.pet-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(78, 54, 41, 0.08);
+}
+
+/* Delightful buttons */
+.pet-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 24px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+    text-decoration: none;
+    border: 1.5px solid transparent;
+}
+
+.pet-btn-primary {
+    background-color: var(--primary);
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(78, 54, 41, 0.15);
+}
+
+.pet-btn-primary:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(78, 54, 41, 0.25);
+}
+
+.pet-btn-secondary {
+    background-color: var(--secondary);
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(212, 140, 106, 0.15);
+}
+
+.pet-btn-secondary:hover {
+    background-color: var(--secondary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 140, 106, 0.25);
+}
+
+.pet-btn-outline {
+    background-color: transparent;
+    border-color: #eadacb;
+    color: var(--ink) !important;
+}
+
+.pet-btn-outline:hover {
+    background-color: var(--bg-peach);
+    transform: translateY(-2px);
+}
+
+/* Custom organic badges */
+.pet-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border-radius: 12px;
+    border: 1px solid #eadacb;
+    background-color: #fff9f3;
+    color: #4e3629;
+}
+
+.pet-badge-sage {
+    background-color: var(--bg-sage);
+    color: #43634f;
+    border-color: #c8dfd2;
+}
+
+.pet-badge-peach {
+    background-color: #fcece6;
+    color: #b05634;
+    border-color: #f7dcd1;
+}
+
+/* Sidebar Layout styles */
+.sidebar-container {
+    background-color: #ffffff;
+    border-right: 1.5px solid #eadacb;
+    min-height: calc(100vh - 80px);
+    width: 240px;
+    padding: 24px 16px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 16px;
+    color: var(--ink);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin-bottom: 6px;
+}
+
+.sidebar-link:hover, .sidebar-link.active {
+    background-color: #f9f2eb;
+    color: var(--primary);
+    transform: translateX(4px);
+}
+
+/* Calendar styling for booking */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    text-align: center;
+}
+
+.calendar-day-header {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--muted);
+    padding: 8px 0;
+}
+
+.calendar-day {
+    padding: 10px 0;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-color: #ffffff;
+    border: 1px solid #f2ebdf;
+}
+
+.calendar-day:hover {
+    background-color: #f9f2eb;
+}
+
+.calendar-day.active {
+    background-color: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+}
+
+.calendar-day.muted {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* Custom time slot buttons */
+.time-slot-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #eadacb;
+    background-color: #ffffff;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--ink);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.time-slot-btn:hover {
+    background-color: #f9f2eb;
+}
+
+.time-slot-btn.active {
+    background-color: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+}
+
+/* Stat card summaries */
+.summary-widget {
+    background-color: #ffffff;
+    border: 1.5px solid #eadacb;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.summary-widget:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(78, 54, 41, 0.05);
+}
+
+.summary-widget .value {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--primary);
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+}
+
+.summary-widget .value.value-long {
+    font-size: 1.55rem;
+}
+
+@media (max-width: 768px) {
+    .summary-widget .value {
+        font-size: 1.6rem;
+    }
+    .summary-widget .value.value-long {
+        font-size: 1.2rem;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.nav-link-custom {
+    color: var(--ink);
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    text-decoration: none;
+    position: relative;
+    padding: 4px 0;
+}
+
+.nav-link-custom:hover {
+    color: var(--secondary) !important;
+}
+
+.nav-link-custom::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--secondary);
+    transition: width 0.2s ease;
+}
+
+.nav-link-custom:hover::after {
+    width: 100%;
+}
+
+.nav-link-custom.active {
+    color: var(--secondary) !important;
+    font-weight: 600;
+}
+
+.nav-link-custom.active::after {
+    width: 100%;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Custom stat card backgrounds with gorgeous subtle warm gradients */
+.widget-users {
+    background: linear-gradient(135deg, #ffffff 0%, #FAF6F0 100%) !important;
+    border-left: 4.5px solid var(--muted) !important;
+}
+.widget-bookings {
+    background: linear-gradient(135deg, #ffffff 0%, #fbebe5 100%) !important;
+    border-left: 4.5px solid #d48c6a !important;
+}
+.widget-income {
+    background: linear-gradient(135deg, #ffffff 0%, #fff9f3 100%) !important;
+    border-left: 4.5px solid #b06948 !important;
+}
+.widget-active {
+    background: linear-gradient(135deg, #ffffff 0%, #ecf3ef 100%) !important;
+    border-left: 4.5px solid #759a83 !important;
+}
+
+/* Sleek custom scrollbars for responsive tables */
+.table-responsive::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+}
+.table-responsive::-webkit-scrollbar-track {
+    background: #FAF6F0;
+    border-radius: 99px;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #eadacb;
+    border-radius: 99px;
+    transition: background-color 0.2s;
+}
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #d48c6a;
+}
+.table-responsive {
+    scrollbar-width: thin;
+    scrollbar-color: #eadacb #FAF6F0;
+}
+
+/* Premium Modern Table Styles */
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-hover-bg: rgba(249, 242, 235, 0.4);
+    border-color: #eadacb !important;
+    margin-bottom: 0;
+}
+
+.table thead th {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    border-bottom: 2.5px solid #eadacb !important;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.table tbody td {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #f2ebdf !important;
+    font-size: 0.88rem;
+    color: var(--ink);
+}
+
+.table tbody tr:last-child td {
+    border-bottom: 0 !important;
+}

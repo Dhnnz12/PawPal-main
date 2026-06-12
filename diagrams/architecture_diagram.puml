@@ -1,0 +1,28 @@
+@startuml Architecture
+!theme plain
+skinparam componentStyle uml2
+
+actor "Client / Web Browser" as Client
+
+package "Web Server" {
+  [Nginx / Apache] as WebServer
+}
+
+package "Laravel MVC Framework" {
+  [Routing & Middleware] as Router
+  [Controllers] as Controller
+  [Models] as Model
+  [Blade Views] as View
+}
+
+database "MySQL Database" as DB
+folder "File Storage" as Storage
+
+Client <--> WebServer : HTTP Requests / Responses
+WebServer <--> Router
+Router <--> Controller
+Controller <--> Model
+Controller <--> View
+Model <--> DB
+Storage <--> Controller
+@enduml

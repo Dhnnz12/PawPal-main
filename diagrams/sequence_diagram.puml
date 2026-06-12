@@ -1,0 +1,54 @@
+@startuml Sequence
+autonumber
+actor "Pet Owner" as PetOwner
+boundary "Web View" as View
+control "Controller" as Controller
+entity "Model" as Model
+database "Database (MySQL)" as DB
+
+group Alur Booking Layanan (Grooming / Vet)
+    PetOwner -> View : Pilih Layanan, Waktu, & Hewan
+    PetOwner -> View : Klik 'Simpan Booking'
+    activate View
+    View -> Controller : POST /booking/store
+    activate Controller
+    Controller -> Controller : Validasi data input
+    Controller -> Model : Create new Booking
+    activate Model
+    Model -> DB : INSERT INTO bookings
+    activate DB
+    DB --> Model : Success
+    deactivate DB
+    Model --> Controller : Booking instance
+    deactivate Model
+    Controller --> View : Redirect ke Dashboard (Success Alert)
+    deactivate Controller
+    View --> PetOwner : Tampilkan riwayat booking (Status: Pending)
+    deactivate View
+end
+
+group Alur Belanja Marketplace (Checkout)
+    PetOwner -> View : Tambah Produk ke Keranjang
+    PetOwner -> View : Isi Alamat, Unggah Bukti Bayar & Checkout
+    activate View
+    View -> Controller : POST /marketplace/checkout
+    activate Controller
+    Controller -> Controller : Validasi form & cek stok produk
+    Controller -> DB : BEGIN TRANSACTION
+    Controller -> Model : Create Order & OrderItems
+    activate Model
+    Model -> DB : INSERT INTO orders & order_items
+    activate DB
+    DB --> Model : Success
+    Model -> DB : UPDATE products SET stock = stock - qty
+    DB --> Model : Success
+    deactivate DB
+    Model --> Controller : Order instance
+    deactivate Model
+    Controller -> DB : COMMIT
+    Controller --> View : Redirect ke Dashboard (Success Alert)
+    deactivate Controller
+    View --> PetOwner : Tampilkan riwayat pesanan (Status: Pending)
+    deactivate View
+end
+@enduml

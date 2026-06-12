@@ -1,0 +1,141 @@
+@startuml ERD
+!theme plain
+hide circle
+skinparam linetype ortho
+
+entity "USERS" as users {
+  * id : bigint <<PK>>
+  --
+  * name : string
+  * email : string
+  * password : string
+  * role : string (admin | pet_owner)
+  phone : string
+  bio : string
+  * is_verified : boolean
+  * is_active : boolean
+  avatar : string
+}
+
+entity "PETS" as pets {
+  * id : bigint <<PK>>
+  --
+  * user_id : bigint <<FK>>
+  * name : string
+  * type : string
+  breed : string
+  age : int
+  weight : decimal
+  photo : string
+  health_notes : text
+}
+
+entity "ADDRESSES" as addresses {
+  * id : bigint <<PK>>
+  --
+  * user_id : bigint <<FK>>
+  * label : string
+  * address_line : text
+  * city : string
+  latitude : decimal
+  longitude : decimal
+  * is_primary : boolean
+}
+
+entity "SERVICES" as services {
+  * id : bigint <<PK>>
+  --
+  * provider_id : bigint <<FK>>
+  * name : string
+  description : text
+  * price : decimal
+  * duration_minutes : int
+}
+
+entity "PRODUCTS" as products {
+  * id : bigint <<PK>>
+  --
+  * seller_id : bigint <<FK>>
+  * name : string
+  description : text
+  * price : decimal
+  * stock : int
+  image : string
+}
+
+entity "BOOKINGS" as bookings {
+  * id : bigint <<PK>>
+  --
+  * pet_owner_id : bigint <<FK>>
+  * provider_id : bigint <<FK>>
+  * pet_id : bigint <<FK>>
+  * service_id : bigint <<FK>>
+  * booking_date : date
+  * start_time : time
+  * status : string (pending | confirmed | completed | cancelled)
+  * total_price : decimal
+  address_id : bigint <<FK>>
+  notes : text
+}
+
+entity "MEDICAL_RECORDS" as medical_records {
+  * id : bigint <<PK>>
+  --
+  * pet_id : bigint <<FK>>
+  * vet_id : bigint <<FK>>
+  booking_id : bigint <<FK>>
+  * visit_date : date
+  * diagnosis : text
+  treatment : text
+  notes : text
+  pdf_path : string
+}
+
+entity "REVIEWS" as reviews {
+  * id : bigint <<PK>>
+  --
+  * booking_id : bigint <<FK>>
+  * reviewer_id : bigint <<FK>>
+  * reviewee_id : bigint <<FK>>
+  * rating : int
+  comment : text
+}
+
+entity "ORDERS" as orders {
+  * id : bigint <<PK>>
+  --
+  * user_id : bigint <<FK>>
+  * total_price : decimal
+  * status : string
+  shipping_address_id : bigint <<FK>>
+}
+
+entity "ORDER_ITEMS" as order_items {
+  * id : bigint <<PK>>
+  --
+  * order_id : bigint <<FK>>
+  * product_id : bigint <<FK>>
+  * quantity : int
+  * price : decimal
+}
+
+users ||--o{ pets : "owns"
+users ||--o{ addresses : "has"
+users ||--o{ services : "manages (as admin)"
+users ||--o{ products : "sells (as admin)"
+users ||--o{ bookings : "books (as owner) / manages (as admin)"
+users ||--o{ orders : "purchases"
+users ||--o{ reviews : "writes"
+
+pets ||--o{ bookings : "attends"
+pets ||--o{ medical_records : "has history"
+
+services ||--o{ bookings : "associated with"
+addresses ||--o{ bookings : "destination"
+
+bookings ||--o| medical_records : "results in"
+bookings ||--o| reviews : "evaluated by"
+
+orders ||--|{ order_items : "contains"
+products ||--o{ order_items : "ordered"
+@enduml
