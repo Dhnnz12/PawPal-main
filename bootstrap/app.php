@@ -4,23 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
-// 1. Trik runtime check untuk membuat folder cache di /tmp Vercel
-if (isset($_SERVER['VERCEL_URL'])) {
-    $targetDirectories = [
-        'bootstrap/cache',
-        'storage/framework/sessions',
-        'storage/framework/views',
-        'storage/framework/cache'
-    ];
-    foreach ($targetDirectories as $dir) {
-        if (!is_dir('/tmp/' . $dir)) {
-            mkdir('/tmp/' . $dir, 0755, true);
-        }
-    }
-}
-
-// 2. Tampung konfigurasi ke dalam variabel $app
-$app = Application::configure(basePath: dirname(__DIR__))
+return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         commands: __DIR__.'/../routes/console.php',
@@ -39,12 +23,26 @@ $app = Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
-    })->create();
+    })
+    ->booting(function ($app) {
+        // Jalankan trik /tmp Vercel tepat saat aplikasi sedang bersiap booting
+        if (isset($_SERVER['VERCEL_URL'])) {
+            $targetDirectories = [
+                'bootstrap/cache',
+                'storage/framework/sessions',
+                'storage/framework/views',
+                'storage/framework/cache',
+                'storage/logs'
+            ];
+            foreach ($targetDirectories as $dir) {
+                if (!is_dir('/tmp/' . $dir)) {
+                    mkdir('/tmp/' . $dir, 0755, true);
+                }
+            }
 
-// 3. Alihkan storage path Laravel ke /tmp khusus di lingkungan Vercel
-if (isset($_SERVER['VERCEL_URL'])) {
-    $app->useStoragePath('/tmp/storage');
-}
-
-// 4. Kembalikan instance $app agar kernel Laravel tetap berjalan normal
-return $app;
+            // Alihkan penyimpanan rute internal & view compile ke /tmp
+            $app->useStoragePath('/tmp/storage');
+            config(['view.compiled' => '/tmp/bootstrap/cache']);
+        }
+    })
+    ->create();
