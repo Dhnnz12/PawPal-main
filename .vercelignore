@@ -1,0 +1,6 @@
+/vendor
+/node_modules
+/.vercel
+/.git
+/tests
+/bootstrap/cache/*.php
