@@ -43,14 +43,6 @@ return [
             'transaction_mode' => 'DEFERRED',
         ],
 
-        'libsql' => [
-            'driver' => 'libsql',
-            'url' => env('DB_URL'),
-            'database' => env('DB_DATABASE', ''),
-            'auth_token' => env('DB_AUTH_TOKEN', ''),
-            'prefix' => '',
-        ],
-
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
